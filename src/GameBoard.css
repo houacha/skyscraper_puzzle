@@ -1,0 +1,34 @@
+
+.gameboard_parent {
+  display: flex;
+  width: 100%;
+}
+
+.game_board {
+  padding: 36px;
+  position: relative;
+  margin: 0px auto;
+}
+
+.top_container,
+.bot_container,
+.left_container,
+.right_container {
+  position: absolute;
+}
+
+.top_container {
+  top: 0;
+}
+
+.bot_container {
+  bottom: 0;
+}
+
+.right_container {
+  right: 0;
+}
+
+.left_container {
+  left: 0;
+}
