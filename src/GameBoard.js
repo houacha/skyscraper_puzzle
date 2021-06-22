@@ -11,12 +11,11 @@ function GameBoard({
   setIsVisible,
   isVisible,
   setPos,
-  gameBoard,
+  board,
 }) {
-  const board = gameBoard;
-  //const board = Array.from(Array(length));
   const clues = Array.from(Array(length));
   let clueArr = [];
+
   React.useEffect(() => {
     if (solution && !finalC) {
       setClues();

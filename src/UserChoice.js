@@ -7,6 +7,7 @@ function UserChoice({ length, gameBoard, updateBoard, indices }) {
     gameBoard[indices.x][indices.y] = n;
     updateBoard(gameBoard);
   };
+
   return (
     <div className="choice_container">
       {choices.map((_, i) => (

@@ -15,8 +15,10 @@ function App() {
   });
   const [gameBoardObj, setGame] = React.useState({
     solution: null,
-    history: { id: 0, board: [] },
+    history: [],
     clues: null,
+    board: null,
+    index: null,
   });
 
   //useStates
@@ -31,11 +33,13 @@ function App() {
   };
   const setInitialGameState = (n) => {
     const puzzle = gameLogic.makePuzzle(n);
-    const board = Array.from(Array(n)).map(() => Array.from(Array(n)));
+    const b = Array.from(Array(n)).map(() => Array.from(Array(n)));
     setGame({
       ...gameBoardObj,
       solution: puzzle,
-      history: { ...gameBoardObj.history, board: board },
+      history: gameBoardObj.history.concat({ b }),
+      board: b,
+      index: gameBoardObj.history.length + 1,
     });
     console.log(puzzle);
   };
@@ -48,18 +52,17 @@ function App() {
   const updateBoard = (b) => {
     setGame({
       ...gameBoardObj,
-      history: {
-        ...gameBoardObj.history,
-        board: b,
-        id: (gameBoardObj.history.id += 1),
-      },
+      history: gameBoardObj.history.concat({ b }),
+      board: b,
+      index: gameBoardObj.history.length + 1,
     });
   };
-  if (!gameBoardObj.history.board.includes(undefined)) {
-    if (gameBoardObj.history.board === gameBoardObj.solution) {
-      console.log("CONGRATS");
-    }
-  }
+  const currentIndex = (i) => {
+    setGame({
+      ...gameBoardObj,
+      index: i,
+    });
+  };
 
   return (
     <React.StrictMode>
@@ -77,8 +80,9 @@ function App() {
           clueAmount={diffObject.clueAmount}
           setClues={setClues}
           finalC={gameBoardObj.clues}
-          gameBoard={gameBoardObj.history.board}
+          gameBoard={gameBoardObj.board}
           updateBoard={updateBoard}
+          history={gameBoardObj.history}
         ></DifficultyChoice>
       </div>
     </React.StrictMode>

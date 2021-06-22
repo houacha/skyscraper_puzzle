@@ -4,6 +4,9 @@ import GameBoard from "./GameBoard";
 import "./DifficultyChoice.css";
 import UserChoice from "./UserChoice.js";
 import useVisible from "./useVisible";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUndoAlt } from "@fortawesome/free-solid-svg-icons";
 
 function DifficultyChoice({
   isClicked,
@@ -19,19 +22,31 @@ function DifficultyChoice({
   setClues,
   gameBoard,
   updateBoard,
+  history
 }) {
   const { ref, isVisible, setIsVisible } = useVisible(false);
   const [indices, setIndices] = React.useState({ x: null, y: null });
+  const butArr = ["Easy", "Intermediate", "Hard"];
+  let disable = false;
+  let board = [];
+  let prev = null;
+  let next = null;
 
   const setPos = (x, y) => {
     setIndices({ x: x, y: y });
   };
+  const undo = () => {
+    prev = history[history.length - 1]["b"];
+    var x = 0;
+  };
 
-  let disable = false;
+  if (gameBoard && !prev && ! next) {
+    board = gameBoard;
+  }
   if (isClicked) {
     disable = true;
   }
-  const butArr = ["Easy", "Intermediate", "Hard"];
+
   return (
     <div className="game_container">
       {butArr.map((val, i) => (
@@ -60,16 +75,25 @@ function DifficultyChoice({
         setIsVisible={setIsVisible}
         isVisible={isVisible}
         setPos={setPos}
-        gameBoard={gameBoard}
+        board={board}
       ></GameBoard>
       {isVisible && (
-        <div ref={ref} style={{ width: length * 32 + "px" }}>
-          <UserChoice
-            length={length}
-            gameBoard={gameBoard}
-            updateBoard={updateBoard}
-            indices={indices}
-          ></UserChoice>
+        <div>
+          <div ref={ref} style={{ width: length * 32 + "px" }}>
+            <UserChoice
+              length={length}
+              gameBoard={board}
+              updateBoard={updateBoard}
+              indices={indices}
+            ></UserChoice>
+          </div>
+          <button className="undo" title="undo" onClick={() => undo()}>
+            <FontAwesomeIcon icon={faUndoAlt} />
+          </button>
+          <button className="redo" title="redo">
+            <FontAwesomeIcon icon={faRedoAlt} />
+          </button>
+          <button className="restart">Start Over</button>
         </div>
       )}
     </div>
