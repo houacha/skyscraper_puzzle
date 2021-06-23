@@ -1,11 +1,23 @@
 import React from "react";
 import "./UserChoice.css";
 
-function UserChoice({ length, gameBoard, updateBoard, indices }) {
+function UserChoice({
+  length,
+  gameBoard,
+  updateBoard,
+  indices,
+  history,
+  current,
+}) {
   const choices = Array.from(Array(length));
   const chooseNum = (n) => {
-    gameBoard[indices.x][indices.y] = n;
-    updateBoard(gameBoard);
+    const board = [];
+    for (let i = 0; i < gameBoard.length; i++) {
+      board[i] = gameBoard[i].slice();
+    }
+    board[indices.x][indices.y] = n;
+    const hist = history.slice(0, current + 1);
+    updateBoard(board, hist);
   };
 
   return (

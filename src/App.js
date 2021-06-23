@@ -18,7 +18,7 @@ function App() {
     history: [],
     clues: null,
     board: null,
-    index: null,
+    currentI: null,
   });
 
   //useStates
@@ -39,7 +39,7 @@ function App() {
       solution: puzzle,
       history: gameBoardObj.history.concat({ b }),
       board: b,
-      index: gameBoardObj.history.length + 1,
+      currentI: 0,
     });
     console.log(puzzle);
   };
@@ -49,18 +49,18 @@ function App() {
     clueArr = gameLogic.removeClues(diffObject.clueAmount, clueArr);
     setGame({ ...gameBoardObj, clues: clueArr });
   };
-  const updateBoard = (b) => {
+  const updateBoard = (b, h, i = gameBoardObj.currentI + 1) => {
+    let hist;
+    if (h) {
+      hist = h.concat({ b });
+    } else {
+      hist = gameBoardObj.history;
+    }
     setGame({
       ...gameBoardObj,
-      history: gameBoardObj.history.concat({ b }),
+      history: hist,
       board: b,
-      index: gameBoardObj.history.length + 1,
-    });
-  };
-  const currentIndex = (i) => {
-    setGame({
-      ...gameBoardObj,
-      index: i,
+      currentI: i,
     });
   };
 
@@ -83,6 +83,7 @@ function App() {
           gameBoard={gameBoardObj.board}
           updateBoard={updateBoard}
           history={gameBoardObj.history}
+          current={gameBoardObj.currentI}
         ></DifficultyChoice>
       </div>
     </React.StrictMode>
