@@ -22,14 +22,14 @@ function App() {
   });
 
   //useStates
-  const chooseDiff = (n) => {
-    setDiff({ ...diffObject, isClicked: true, diffLevel: n });
+  const chooseDiff = (n, c) => {
+    setDiff({ ...diffObject, isClicked: c, diffLevel: n });
   };
   const setClueAmount = (n) => {
     setDiff({ ...diffObject, clueAmount: n });
   };
-  const chooseLength = (n) => {
-    setLength({ ...lengthObject, length: n, isClicked: true });
+  const chooseLength = (n, c) => {
+    setLength({ ...lengthObject, length: n, isClicked: c });
   };
   const setInitialGameState = (n) => {
     const puzzle = gameLogic.makePuzzle(n);

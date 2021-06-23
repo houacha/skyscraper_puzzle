@@ -28,6 +28,10 @@ function UserTools({ history, disable, updateBoard, current }) {
     const board = hist[0]["b"];
     updateBoard(board, hist, 0);
   };
+  const changeDiff = () => {
+    updateBoard(null, [], 0);
+
+  };
 
   return (
     <div>
@@ -40,6 +44,7 @@ function UserTools({ history, disable, updateBoard, current }) {
       <button className="restart" onClick={() => restart()}>
         Start Over
       </button>
+      <button className="change-difficulty">Change Difficulty</button>
     </div>
   );
 }

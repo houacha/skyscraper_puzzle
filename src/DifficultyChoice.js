@@ -47,7 +47,7 @@ function DifficultyChoice({
           disabled={disable}
           key={i}
           className="choice"
-          onClick={() => setDiff(i)}
+          onClick={() => setDiff(i, true)}
         >
           {val}
         </button>

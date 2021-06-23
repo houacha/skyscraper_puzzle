@@ -183,3 +183,7 @@ export function removeClues(clueAmount, clueArr) {
   let lC = clueA[3];
   return tC.concat(rC, bC, lC);
 }
+
+export function checkSolution(puzzle){
+  
+}

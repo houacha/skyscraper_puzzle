@@ -57,7 +57,7 @@ function BoardLength({
         break;
     }
     setClueAmount(n * 4 - count);
-    chooseLength(n);
+    chooseLength(n, true);
     setInitialGameState(n);
   };
   const lengthArr = Array.from(Array(size));
