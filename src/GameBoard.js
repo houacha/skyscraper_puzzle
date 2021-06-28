@@ -2,6 +2,8 @@ import React from "react";
 import "./GameBoard.css";
 import Clues from "./Clues";
 import Square from "./Square";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 function GameBoard({
   length,
@@ -12,9 +14,11 @@ function GameBoard({
   isVisible,
   setPos,
   board,
+  solved,
 }) {
   const clues = Array.from(Array(length));
   let clueArr = [];
+  let display = "";
 
   React.useEffect(() => {
     if (solution && !finalC) {
@@ -24,6 +28,11 @@ function GameBoard({
 
   if (finalC) {
     clueArr = finalC;
+  }
+  if (solved) {
+    display = "initial";
+  } else {
+    display = "none";
   }
 
   return (
@@ -44,6 +53,17 @@ function GameBoard({
               ></Square>
             ))
           )}
+
+          <div
+            className="check_icon"
+            style={{
+              fontSize: length * 36 + "px",
+              height: length * 36 + "px",
+              display: display,
+            }}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </div>
         </div>
 
         <div className="top_container">

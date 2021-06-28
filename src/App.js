@@ -19,6 +19,7 @@ function App() {
     clues: null,
     board: null,
     currentI: null,
+    solved: false,
   });
 
   //useStates
@@ -49,10 +50,20 @@ function App() {
     clueArr = gameLogic.removeClues(diffObject.clueAmount, clueArr);
     setGame({ ...gameBoardObj, clues: clueArr });
   };
-  const updateBoard = (b, h, i = gameBoardObj.currentI + 1) => {
+  const updateBoard = (
+    b,
+    h,
+    i = gameBoardObj.currentI + 1,
+    c = gameBoardObj.clues,
+    s = gameBoardObj.solution
+  ) => {
     let hist;
     if (h) {
-      hist = h.concat({ b });
+      if (b === null) {
+        hist = h;
+      } else {
+        hist = h.concat({ b });
+      }
     } else {
       hist = gameBoardObj.history;
     }
@@ -61,6 +72,8 @@ function App() {
       history: hist,
       board: b,
       currentI: i,
+      clues: c,
+      solution: s,
     });
   };
 
@@ -84,6 +97,7 @@ function App() {
           updateBoard={updateBoard}
           history={gameBoardObj.history}
           current={gameBoardObj.currentI}
+          solved={gameBoardObj.solved}
         ></DifficultyChoice>
       </div>
     </React.StrictMode>

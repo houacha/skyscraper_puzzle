@@ -22,6 +22,7 @@ function DifficultyChoice({
   updateBoard,
   history,
   current,
+  solved,
 }) {
   const { ref, isVisible, setIsVisible } = useVisible(false);
   const [indices, setIndices] = React.useState({ x: null, y: null });
@@ -52,6 +53,7 @@ function DifficultyChoice({
           {val}
         </button>
       ))}
+
       <BoardLength
         chooseLength={chooseLength}
         isClicked={isClicked}
@@ -60,6 +62,7 @@ function DifficultyChoice({
         level={level}
         setInitialGameState={setInitialGameState}
       ></BoardLength>
+
       <GameBoard
         finalC={finalC}
         setClues={setClues}
@@ -69,7 +72,9 @@ function DifficultyChoice({
         isVisible={isVisible}
         setPos={setPos}
         board={board}
+        solved={solved}
       ></GameBoard>
+
       {isVisible && (
         <div ref={ref} style={{ width: length * 32 + "px" }}>
           <UserChoice
@@ -82,11 +87,16 @@ function DifficultyChoice({
           ></UserChoice>
         </div>
       )}
+
       <UserTools
+        chooseLength={chooseLength}
+        clues={finalC}
+        setDiff={setDiff}
         history={history}
         disable={disable}
         updateBoard={updateBoard}
         current={current}
+        gameBoard={gameBoard}
       ></UserTools>
     </div>
   );

@@ -2,8 +2,18 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { faUndoAlt } from "@fortawesome/free-solid-svg-icons";
+import * as gameLogic from "./GameLogic.js";
 
-function UserTools({ history, disable, updateBoard, current }) {
+function UserTools({
+  history,
+  disable,
+  updateBoard,
+  current,
+  chooseLength,
+  setDiff,
+  gameBoard,
+  clues,
+}) {
   if (!disable) {
     return null;
   }
@@ -29,22 +39,36 @@ function UserTools({ history, disable, updateBoard, current }) {
     updateBoard(board, hist, 0);
   };
   const changeDiff = () => {
-    updateBoard(null, [], 0);
-
+    updateBoard(null, [], null, null, null);
+    setDiff(null, false);
+    chooseLength(null, false);
   };
+  const checkSol = () => {
+    const errs = gameLogic.checkSolution(gameBoard, clues);
+    var s = 0;
+  };
+  const solve = () => {};
 
   return (
     <div>
-      <button className="undo" title="undo" onClick={() => undo()}>
-        <FontAwesomeIcon icon={faUndoAlt} />
-      </button>
-      <button className="redo" title="redo" onClick={() => redo()}>
-        <FontAwesomeIcon icon={faRedoAlt} />
-      </button>
-      <button className="restart" onClick={() => restart()}>
-        Start Over
-      </button>
-      <button className="change-difficulty">Change Difficulty</button>
+      <div>
+        <button className="undo" title="undo" onClick={() => undo()}>
+          <FontAwesomeIcon icon={faUndoAlt} />
+        </button>
+        <button className="redo" title="redo" onClick={() => redo()}>
+          <FontAwesomeIcon icon={faRedoAlt} />
+        </button>
+        <button onClick={() => solve()}>Submit Solution</button>
+        <button onClick={() => checkSol()}>Check Solution</button>
+      </div>
+      <div>
+        <button className="restart" onClick={() => restart()}>
+          Start Over
+        </button>
+        <button className="change-difficulty" onClick={() => changeDiff()}>
+          Change Difficulty
+        </button>
+      </div>
     </div>
   );
 }

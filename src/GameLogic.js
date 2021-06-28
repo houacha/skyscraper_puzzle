@@ -44,7 +44,45 @@ function reduce(arr) {
   return res;
 }
 
-//returns a filled out 2d array puzzle from a given length
+//return the count of numbers that can be seen from the edges
+function findNums(arr) {
+  let count = 1;
+  let current = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (current > arr[i]) {
+      continue;
+    } else {
+      count++;
+      current = arr[i];
+    }
+  }
+  return count;
+}
+
+function checkRepeats(puzzle, columns) {
+  let res = {};
+  for (let i = 0; i < puzzle.length; i++) {
+    for (let j = 0; j < puzzle[i].length; j++) {
+      let rowCount = puzzle[i].filter(
+        (x) => x === puzzle[i][j] && x !== undefined
+      ).length;
+      let colCount = columns[j].filter(
+        (x) => x === puzzle[i][j] && x !== undefined
+      ).length;
+      if (rowCount > 1) {
+        res[i.toString() + "," + j.toString()] = puzzle[i][j];
+      }
+      if (colCount > 1) {
+        res[i.toString() + "," + j.toString()] = puzzle[i][j];
+      }
+      rowCount = 0;
+      colCount = 0;
+    }
+  }
+  return res;
+}
+
+//returns a filled 2d array puzzle from a given length
 export function makePuzzle(length) {
   let lNum = Number(length);
   const nums = [];
@@ -98,21 +136,6 @@ export function convertToColumns(puzzle) {
   return columns;
 }
 
-//return the count of numbers that can be seen from the ends
-function findNums(arr) {
-  let count = 1;
-  let current = arr[0];
-  for (let i = 1; i < arr.length; i++) {
-    if (current > arr[i]) {
-      continue;
-    } else {
-      count++;
-      current = arr[i];
-    }
-  }
-  return count;
-}
-
 //return an array of clues for all sides
 export function findClues(puzzle, columns) {
   let topC = [];
@@ -124,18 +147,47 @@ export function findClues(puzzle, columns) {
     const maxYIndex = columns[i].findIndex(
       (y) => y === Math.max(...columns[i])
     );
-    const leftArr = Array.from(puzzle[i]).splice(0, maxXIndex + 1);
-    const rightArr = Array.from(puzzle[i]).splice(maxXIndex).reverse();
-    const topArr = Array.from(columns[i]).splice(0, maxYIndex + 1);
-    const botArr = Array.from(columns[i]).splice(maxYIndex).reverse();
-    let rCount = findNums(rightArr);
-    let lCount = findNums(leftArr);
-    let tCount = findNums(topArr);
-    let bCount = findNums(botArr);
-    topC.push(tCount);
+    let leftArr, rightArr, topArr, botArr;
+    if (maxXIndex !== -1) {
+      leftArr = Array.from(puzzle[i]).splice(0, maxXIndex + 1);
+      rightArr = Array.from(puzzle[i]).splice(maxXIndex).reverse();
+    } else {
+      leftArr = [];
+      rightArr = [];
+    }
+    if (maxYIndex !== -1) {
+      topArr = Array.from(columns[i]).splice(0, maxYIndex + 1);
+      botArr = Array.from(columns[i]).splice(maxYIndex).reverse();
+    } else {
+      topArr = [];
+      botArr = [];
+    }
+
+    let lCount, rCount, tCount, bCount;
+    if (leftArr.length > 0 && !leftArr.includes(undefined)) {
+      lCount = findNums(leftArr);
+    } else {
+      lCount = null;
+    }
+    if (rightArr.length > 0 && !rightArr.includes(undefined)) {
+      rCount = findNums(rightArr);
+    } else {
+      rCount = null;
+    }
+    if (topArr.length > 0 && !topArr.includes(undefined)) {
+      tCount = findNums(topArr);
+    } else {
+      tCount = null;
+    }
+    if (botArr.length > 0 && !botArr.includes(undefined)) {
+      bCount = findNums(botArr);
+    } else {
+      bCount = null;
+    }
     botC.push(bCount);
-    leftC.push(lCount);
+    topC.push(tCount);
     rightC.push(rCount);
+    leftC.push(lCount);
   }
   return topC.concat(rightC, botC, leftC);
 }
@@ -184,6 +236,50 @@ export function removeClues(clueAmount, clueArr) {
   return tC.concat(rC, bC, lC);
 }
 
-export function checkSolution(puzzle){
-  
+export function checkSolution(puzzle, clues) {
+  const columns = convertToColumns(puzzle);
+  const repeats = checkRepeats(puzzle, columns);
+  const clueArr = findClues(puzzle, columns);
+  let errs = [];
+  for (let i = 0, y = 0; i < clues.length; i++, y++) {
+    if (clueArr[i]) {
+      if (clueArr[i] < clues[i]) {
+        errs.push(i);
+      }
+      if (clues[i] === 1 && clueArr[i] !== 1) {
+        errs.push(i);
+      }
+    } else {
+      let arr = null;
+      const l = clueArr.length / 4;
+      if (i < l) {
+        arr = puzzle[0];
+      } else if (i >= l && i < l * 2) {
+        arr = columns[l - 1];
+      } else if (i < l * 3 && i >= l * 2) {
+        arr = puzzle[l - 1];
+      } else {
+        arr = columns[0];
+      }
+      if (i % l === 0) {
+        y = 0;
+      }
+      if (arr[y]) {
+        if (clues[i] === 1 && arr[y] !== l) {
+          errs.push(i);
+        } else if (clues[i] === l && arr[y] !== 1) {
+          errs.push(i);
+        } else if (clues[i] === l - 1 && arr[y] === l - 1) {
+          errs.push(i);
+        } else if (arr[y] === l && clues[i] !== 1) {
+          errs.push(i);
+        }
+      }
+    }
+  }
+  return {repeats: repeats, errors: errs};
+}
+
+export function submitSolution(puzzle) {
+  const check = checkSolution(puzzle);
 }
