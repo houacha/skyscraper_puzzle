@@ -21,3 +21,7 @@
 .Square:active {
   background-color: limegreen;
 }
+
+.isDouble {
+  background-color: rgb(252, 76, 76);
+}

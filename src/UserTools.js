@@ -13,6 +13,9 @@ function UserTools({
   setDiff,
   gameBoard,
   clues,
+  isUndefined,
+  setErrors,
+  showSolved,
 }) {
   if (!disable) {
     return null;
@@ -37,17 +40,36 @@ function UserTools({
     const hist = history.slice(0, 1);
     const board = hist[0]["b"];
     updateBoard(board, hist, 0);
+    setErrors(null, null);
+    showSolved(false);
   };
   const changeDiff = () => {
-    updateBoard(null, [], null, null, null);
+    console.clear();
+    updateBoard([], [], null, null, null);
     setDiff(null, false);
     chooseLength(null, false);
+    setErrors(null, null);
+    showSolved(false);
   };
   const checkSol = () => {
     const errs = gameLogic.checkSolution(gameBoard, clues);
-    var s = 0;
+    setErrors(errs.errors, errs.repeats);
   };
-  const solve = () => {};
+  const solve = () => {
+    const solved = gameLogic.submitSolution(gameBoard, clues);
+    if (
+      solved.errors.length === 0 &&
+      Object.keys(solved.repeats).length === 0 &&
+      solved.undefined === 0
+    ) {
+      showSolved(true);
+    } else {
+      if (solved.undefined) {
+        isUndefined(true);
+      }
+      setErrors(solved.errors, solved.repeats);
+    }
+  };
 
   return (
     <div>

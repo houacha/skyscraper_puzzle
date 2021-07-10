@@ -16,6 +16,8 @@
   color: lightgreen;
   opacity: 0.85;
   display: flex;
+  width: 100%;
+  text-align: center;
 }
 
 .top_container,

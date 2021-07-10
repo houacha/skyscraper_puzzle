@@ -17,10 +17,15 @@ function App() {
     solution: null,
     history: [],
     clues: null,
-    board: null,
+    board: [],
     currentI: null,
     solved: false,
   });
+  const [errObject, setErrs] = React.useState({
+    errors: null,
+    repeats: null,
+  });
+  const [solved, setSolved] = React.useState(false);
 
   //useStates
   const chooseDiff = (n, c) => {
@@ -59,7 +64,7 @@ function App() {
   ) => {
     let hist;
     if (h) {
-      if (b === null) {
+      if (b.length === 0 || b === gameBoardObj.history[0]["b"]) {
         hist = h;
       } else {
         hist = h.concat({ b });
@@ -76,28 +81,34 @@ function App() {
       solution: s,
     });
   };
+  const setErrors = (e, r) => {
+    setErrs({ errors: e, repeats: r });
+  };
+  const showSolved = (s) => {
+    setSolved(s);
+    // setGame({
+    //   ...gameBoardObj,
+    //   solved: s,
+    // });
+  };
 
   return (
     <React.StrictMode>
       <div className="App">
         <DifficultyChoice
-          isClicked={lengthObject.isClicked}
-          length={lengthObject.length}
-          level={diffObject.diffLevel}
+          diffObject={diffObject}
+          lengthObject={lengthObject}
+          gameBoardObj={gameBoardObj}
+          errObject={errObject}
+          solved={solved}
           setDiff={chooseDiff}
           setClueAmount={setClueAmount}
           chooseLength={chooseLength}
-          diffChosen={diffObject.isClicked}
           setInitialGameState={setInitialGameState}
-          solution={gameBoardObj.solution}
-          clueAmount={diffObject.clueAmount}
           setClues={setClues}
-          finalC={gameBoardObj.clues}
-          gameBoard={gameBoardObj.board}
           updateBoard={updateBoard}
-          history={gameBoardObj.history}
-          current={gameBoardObj.currentI}
-          solved={gameBoardObj.solved}
+          setErrors={setErrors}
+          showSolved={showSolved}
         ></DifficultyChoice>
       </div>
     </React.StrictMode>

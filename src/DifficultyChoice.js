@@ -7,24 +7,22 @@ import useVisible from "./useVisible";
 import UserTools from "./UserTools";
 
 function DifficultyChoice({
-  isClicked,
+  diffObject,
+  lengthObject,
+  gameBoardObj,
+  errObject,
   setDiff,
-  length,
-  level,
   setClueAmount,
-  diffChosen,
   chooseLength,
   setInitialGameState,
-  solution,
-  finalC,
   setClues,
-  gameBoard,
   updateBoard,
-  history,
-  current,
+  setErrors,
+  showSolved,
   solved,
 }) {
   const { ref, isVisible, setIsVisible } = useVisible(false);
+  const [hasUndefine, setUndefined] = React.useState(null);
   const [indices, setIndices] = React.useState({ x: null, y: null });
   const butArr = ["Easy", "Intermediate", "Hard"];
   let disable = false;
@@ -33,11 +31,21 @@ function DifficultyChoice({
   const setPos = (x, y) => {
     setIndices({ x: x, y: y });
   };
+  const isUndefined = (t) => {
+    setUndefined(t);
+  };
 
-  if (gameBoard) {
-    board = gameBoard;
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setUndefined(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [hasUndefine]);
+
+  if (gameBoardObj.board) {
+    board = gameBoardObj.board;
   }
-  if (isClicked) {
+  if (lengthObject.isClicked) {
     disable = true;
   }
 
@@ -56,47 +64,51 @@ function DifficultyChoice({
 
       <BoardLength
         chooseLength={chooseLength}
-        isClicked={isClicked}
-        diffChosen={diffChosen}
+        isClicked={lengthObject.isClicked}
+        diffChosen={diffObject.isClicked}
+        level={diffObject.diffLevel}
         setClueAmount={setClueAmount}
-        level={level}
         setInitialGameState={setInitialGameState}
       ></BoardLength>
 
       <GameBoard
-        finalC={finalC}
+        errObject={errObject}
+        gameBoardObj={gameBoardObj}
         setClues={setClues}
-        length={length}
-        solution={solution}
+        length={lengthObject.length}
+        solved={solved}
         setIsVisible={setIsVisible}
         isVisible={isVisible}
         setPos={setPos}
-        board={board}
-        solved={solved}
+        hasUndefine={hasUndefine}
       ></GameBoard>
 
       {isVisible && (
-        <div ref={ref} style={{ width: length * 32 + "px" }}>
+        <div ref={ref} style={{ width: lengthObject.length * 32 + "px" }}>
           <UserChoice
-            length={length}
+            length={lengthObject.length}
             gameBoard={board}
             updateBoard={updateBoard}
             indices={indices}
-            history={history}
-            current={current}
+            history={gameBoardObj.history}
+            current={gameBoardObj.currentI}
           ></UserChoice>
         </div>
       )}
 
       <UserTools
+        errObject={errObject}
         chooseLength={chooseLength}
-        clues={finalC}
+        clues={gameBoardObj.clues}
+        history={gameBoardObj.history}
+        current={gameBoardObj.currentI}
         setDiff={setDiff}
-        history={history}
         disable={disable}
         updateBoard={updateBoard}
-        current={current}
-        gameBoard={gameBoard}
+        gameBoard={board}
+        isUndefined={isUndefined}
+        setErrors={setErrors}
+        showSolved={showSolved}
       ></UserTools>
     </div>
   );

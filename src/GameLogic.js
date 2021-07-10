@@ -236,50 +236,67 @@ export function removeClues(clueAmount, clueArr) {
   return tC.concat(rC, bC, lC);
 }
 
+//returns an object of errors and repeated numbers
 export function checkSolution(puzzle, clues) {
   const columns = convertToColumns(puzzle);
   const repeats = checkRepeats(puzzle, columns);
   const clueArr = findClues(puzzle, columns);
   let errs = [];
   for (let i = 0, y = 0; i < clues.length; i++, y++) {
-    if (clueArr[i]) {
-      if (clueArr[i] < clues[i]) {
-        errs.push(i);
+    let err = null;
+    if (clueArr[i] && clues[i]) {
+      // if (clues[i] === 1 && clueArr[i] !== 1) {
+      //   err = i;
+      // } else
+      if (clueArr[i] !== clues[i]) {
+        err = i;
       }
-      if (clues[i] === 1 && clueArr[i] !== 1) {
-        errs.push(i);
-      }
+    }
+    let arr = null;
+    const l = clueArr.length / 4;
+    if (i < l) {
+      arr = puzzle[0];
+    } else if (i >= l && i < l * 2) {
+      arr = columns[l - 1];
+    } else if (i < l * 3 && i >= l * 2) {
+      arr = puzzle[l - 1];
     } else {
-      let arr = null;
-      const l = clueArr.length / 4;
-      if (i < l) {
-        arr = puzzle[0];
-      } else if (i >= l && i < l * 2) {
-        arr = columns[l - 1];
-      } else if (i < l * 3 && i >= l * 2) {
-        arr = puzzle[l - 1];
-      } else {
-        arr = columns[0];
+      arr = columns[0];
+    }
+    if (i % l === 0) {
+      y = 0;
+    }
+    if (arr[y] && clues[i]) {
+      if (clues[i] === 1 && arr[y] !== l) {
+        err = i;
+      } else if (clues[i] === l && arr[y] !== 1) {
+        err = i;
+      } else if (clues[i] === l - 1 && arr[y] === l - 1 && l !== 3) {
+        err = i;
+      } else if (arr[y] === l && clues[i] !== 1) {
+        err = i;
       }
-      if (i % l === 0) {
-        y = 0;
-      }
-      if (arr[y]) {
-        if (clues[i] === 1 && arr[y] !== l) {
-          errs.push(i);
-        } else if (clues[i] === l && arr[y] !== 1) {
-          errs.push(i);
-        } else if (clues[i] === l - 1 && arr[y] === l - 1) {
-          errs.push(i);
-        } else if (arr[y] === l && clues[i] !== 1) {
-          errs.push(i);
-        }
+    }
+    if (!errs.includes(err) && err !== null) {
+      errs.push(err);
+    }
+  }
+  return { repeats: repeats, errors: errs };
+}
+
+//returns a bool if the puzzle is solved
+export function submitSolution(puzzle, clues) {
+  const check = checkSolution(puzzle, clues);
+  let undefCount = 0;
+  for (let i = 0; i < puzzle.length; i++) {
+    for (let j = 0; j < puzzle[i].length; j++) {
+      if (!puzzle[i][j]) {
+        undefCount++;
       }
     }
   }
-  return {repeats: repeats, errors: errs};
-}
-
-export function submitSolution(puzzle) {
-  const check = checkSolution(puzzle);
+  if (!check && undefCount === 0) {
+  } else {
+    return { ...check, undefined: undefCount };
+  }
 }
