@@ -9,3 +9,7 @@
   font-weight: 600;
   font-size: 14px;
 }
+
+.hasError {
+  color: rgb(247, 192, 55);
+}

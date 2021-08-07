@@ -8,6 +8,9 @@ function BoardLength({
   level,
   setClueAmount,
   setInitialGameState,
+  setShow,
+  setStop,
+  setTimer,
 }) {
   if (isClicked || !diffChosen) {
     return null;
@@ -59,6 +62,9 @@ function BoardLength({
     setClueAmount(n * 4 - count);
     chooseLength(n, true);
     setInitialGameState(n);
+    setShow(true);
+    setStop(false);
+    setTimer(0);
   };
   const lengthArr = Array.from(Array(size));
   return (

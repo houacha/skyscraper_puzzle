@@ -1,5 +1,6 @@
 import React from "react";
 import DifficultyChoice from "./DifficultyChoice";
+import "./App.css";
 import * as gameLogic from "./GameLogic.js";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
   const [errObject, setErrs] = React.useState({
     errors: null,
     repeats: null,
+    checkIsClicked: null,
   });
   const [solved, setSolved] = React.useState(false);
 
@@ -81,16 +83,19 @@ function App() {
       solution: s,
     });
   };
-  const setErrors = (e, r) => {
-    setErrs({ errors: e, repeats: r });
+  const setErrors = (e, r, clicked) => {
+    setErrs({ errors: e, repeats: r, checkIsClicked: clicked });
   };
   const showSolved = (s) => {
     setSolved(s);
-    // setGame({
-    //   ...gameBoardObj,
-    //   solved: s,
-    // });
   };
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrs({ ...errObject, checkIsClicked: null });
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [errObject.checkIsClicked]);
 
   return (
     <React.StrictMode>

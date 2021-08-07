@@ -10,8 +10,9 @@
 }
 
 .check_icon {
+  left: 0;
   align-items: center;
-  z-index: 999;
+  z-index: 800;
   position: absolute;
   color: lightgreen;
   opacity: 0.85;
@@ -37,8 +38,10 @@
 
 .right_container {
   right: 0;
+  width: 36px;
 }
 
 .left_container {
   left: 0;
+  width: 36px;
 }

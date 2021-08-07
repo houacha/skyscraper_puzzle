@@ -1,9 +1,9 @@
-//returns a randomly chosen a number from a given array
+//returns a randomly chosen number from a given array
 function randomChoice(choices) {
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
-//returns an array of numbers from all the rows before the current row and current column
+//returns an array of numbers from all the cells before the current cell
 function posChoice(count, board, start) {
   const res = [];
   for (let i = 0; i < count; i++) {
@@ -59,6 +59,7 @@ function findNums(arr) {
   return count;
 }
 
+//returns a dictionary of repeated numbers in a given 2d array (key is the position and value is the number)
 function checkRepeats(puzzle, columns) {
   let res = {};
   for (let i = 0; i < puzzle.length; i++) {
