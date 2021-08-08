@@ -86,10 +86,10 @@ function GameBoard({
         if (errs.includes(i + min)) {
           hasError = true;
         }
-        return <Clues hasError={hasError} value={cluePart[i]} key={i}></Clues>;
+        return <Clues hasError={hasError} value={cluePart[i]} key={i} />;
       });
     } else {
-      return cl.map((_, i) => <Clues value={cluePart[i]} key={i}></Clues>);
+      return cl.map((_, i) => <Clues value={cluePart[i]} key={i} />);
     }
   };
   const showRepeats = (repeats) => {
@@ -116,7 +116,7 @@ function GameBoard({
             setPos={setPos}
             value={gameBoardObj.board[i][j]}
             isDouble={isDouble}
-          ></Square>
+          />
         );
       })
     );

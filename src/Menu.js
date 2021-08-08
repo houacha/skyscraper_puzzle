@@ -15,6 +15,7 @@ function Menu({
   setShow,
   setStop,
   setTimer,
+  setStart,
 }) {
   const [sidebarClasses, setClass] = React.useState(["menu_container", "hide"]);
   const [menuClasses, setMenuClasses] = React.useState("hide-menu");
@@ -73,6 +74,10 @@ function Menu({
       );
     }
   };
+  const reset = () => {
+    setTimer(0);
+    setStop(false);
+  };
   const restart = () => {
     const hist = history.slice(0, 1);
     let board;
@@ -85,8 +90,7 @@ function Menu({
     updateBoard(board, hist, 0);
     setErrors(null, null);
     showSolved(false);
-    setTimer(0);
-    setStop(false);
+    reset();
   };
   const changeDiff = () => {
     console.clear();
@@ -97,9 +101,12 @@ function Menu({
       chooseLength(null, false);
       setErrors(null, null);
       showSolved(false);
-      setShow(false);
-      setTimer(0);
+      reset();
     }, 400);
+  };
+  const quit = () => {
+    changeDiff();
+    setStart(false);
   };
 
   return (
@@ -119,6 +126,9 @@ function Menu({
         </p>
         <p className="restart dropdown-item" onClick={() => restart()}>
           Start Over
+        </p>
+        <p className="quit dropdown-item" onClick={() => quit()}>
+          Quit
         </p>
       </div>
 

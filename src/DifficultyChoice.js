@@ -8,6 +8,7 @@ import UserTools from "./UserTools";
 import Menu from "./Menu";
 
 function DifficultyChoice({
+  start,
   diffObject,
   lengthObject,
   gameBoardObj,
@@ -21,6 +22,7 @@ function DifficultyChoice({
   setErrors,
   showSolved,
   solved,
+  setStart,
 }) {
   const { ref, isVisible, setIsVisible } = useVisible(false);
   const [hasUndefine, setUndefined] = React.useState(null);
@@ -57,6 +59,9 @@ function DifficultyChoice({
   if (disable) {
     visibility = "none";
   }
+  if (!start) {
+    return null;
+  }
 
   return (
     <div className="content_container">
@@ -71,7 +76,8 @@ function DifficultyChoice({
         disable={disable}
         setTimer={setTimer}
         setStop={setStop}
-      ></Menu>
+        setStart={setStart}
+      />
 
       <div className="game_container">
         <div className="difficulty_container">
@@ -98,7 +104,7 @@ function DifficultyChoice({
           setShow={setShow}
           setStop={setStop}
           setTimer={setTimer}
-        ></BoardLength>
+        />
 
         <GameBoard
           errObject={errObject}
@@ -115,7 +121,7 @@ function DifficultyChoice({
           stopTimer={stopTimer}
           time={time}
           setTimer={setTimer}
-        ></GameBoard>
+        />
 
         {isVisible && (
           <div
@@ -130,7 +136,7 @@ function DifficultyChoice({
               indices={indices}
               history={gameBoardObj.history}
               current={gameBoardObj.currentI}
-            ></UserChoice>
+            />
           </div>
         )}
 
@@ -145,7 +151,7 @@ function DifficultyChoice({
           setErrors={setErrors}
           showSolved={showSolved}
           solved={solved}
-        ></UserTools>
+        />
       </div>
     </div>
   );

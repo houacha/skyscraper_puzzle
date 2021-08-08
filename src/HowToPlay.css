@@ -1,0 +1,82 @@
+.how-to-play-modul {
+  height: 250px;
+  width: 200px;
+  border-radius: 10px;
+  border: 1px solid black;
+  position: absolute;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  top: 5%;
+}
+
+.show-htp {
+  visibility: visible;
+  opacity: 0.97;
+  transform: translateX(-100px);
+  transition: all 0.3s ease-out;
+}
+
+.hide-modul {
+  transform: translateX(0);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out,
+    visibility 0.2s linear 0.2s;
+}
+
+.modul-content-container {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.modul-content {
+  height: 90%;
+  text-align: center;
+  margin: 0;
+  font-size: 13px;
+}
+
+.page-changer {
+  margin-left: 4px;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.modul-title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.modul-close {
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.modul-close:hover {
+  text-decoration: underline;
+  color: rgb(74, 74, 235);
+}
+
+.htp-pagination {
+  font-size: 10px;
+  margin-bottom: 1px;
+}
+
+.page-circle {
+  margin-left: 1px;
+  margin-right: 1px;
+  border-radius: 50%;
+}
+
+.page-circle:hover {
+  cursor: pointer;
+}
+
+.page-selected {
+  background-color: grey;
+}

@@ -1,10 +1,12 @@
 import React from "react";
 import DifficultyChoice from "./DifficultyChoice";
+import StartMenu from "./StartMenu";
 import "./App.css";
 import * as gameLogic from "./GameLogic.js";
 
 function App() {
   //states
+  const [start, setStart] = React.useState(false);
   const [diffObject, setDiff] = React.useState({
     clueAmount: null,
     isClicked: false,
@@ -100,7 +102,10 @@ function App() {
   return (
     <React.StrictMode>
       <div className="App">
+        <StartMenu setStart={setStart} start={start} title={"Skyscraper"} />
         <DifficultyChoice
+          start={start}
+          setStart={setStart}
           diffObject={diffObject}
           lengthObject={lengthObject}
           gameBoardObj={gameBoardObj}
@@ -114,7 +119,7 @@ function App() {
           updateBoard={updateBoard}
           setErrors={setErrors}
           showSolved={showSolved}
-        ></DifficultyChoice>
+        />
       </div>
     </React.StrictMode>
   );

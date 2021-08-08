@@ -69,7 +69,7 @@ function BoardLength({
   const lengthArr = Array.from(Array(size));
   return (
     <div className="length_container">
-      <h5>Select board length:</h5>
+      <h5>Select Board Length:</h5>
       {lengthArr.map((_, i) => (
         <button
           className="length_button"
