@@ -40,10 +40,14 @@
 
 .highscore-content {
   height: 220px;
+}
+
+.highscores-container {
+  overflow-y: auto;
+  height: 174.4px;
   /* box-shadow: inset -1px -9px 20px 0px #a8a7a7; */
   background: linear-gradient(0, #cbc6c6, transparent 18%);
   border-bottom: 1px solid #a8a7a7;
-  overflow-y: auto;
 }
 
 .content-header {

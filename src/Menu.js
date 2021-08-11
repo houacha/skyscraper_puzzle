@@ -18,6 +18,7 @@ function Menu({
   setStop,
   setTimer,
   setStart,
+  setHintObj,
 }) {
   const [sidebarClasses, setClass] = React.useState(["menu_container", "hide"]);
   const [menuClasses, setMenuClasses] = React.useState("hide-menu");
@@ -81,9 +82,13 @@ function Menu({
     tempArr.pop();
     tempArr.push("hide-score");
     setHighscoreClasses(tempArr);
-    setHsPClasses("");
     setErrors(null, null);
     showSolved(false);
+    setHintObj({
+      timesClicked: 0,
+      freeHints: 3,
+      penaltyMod: 0,
+    });
     setTimer(0);
     setStop(false);
   };
@@ -99,18 +104,19 @@ function Menu({
     updateBoard(board, hist, 0);
     reset();
   };
-  const changeDiff = () => {
+  const changeDiff = (hideHsp = "hide-hsP") => {
     console.clear();
     showSidebar("hide", "hide-menu");
     setTimeout(() => {
       updateBoard([], [], null, null, null);
       setDiff(null, false);
       chooseLength(null, false);
+      setHsPClasses(hideHsp);
       reset();
     }, 400);
   };
   const quit = () => {
-    changeDiff();
+    changeDiff("");
     setStart(false);
   };
 

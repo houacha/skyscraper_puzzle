@@ -6,6 +6,8 @@ import * as gameLogic from "./GameLogic.js";
 import "./UserTools.css";
 
 function UserTools({
+  setTimer,
+  time,
   setHsPClasses,
   setHighscoreClasses,
   highscoreClasses,
@@ -19,6 +21,8 @@ function UserTools({
   solved,
   lengthObj,
   setStop,
+  hintObj,
+  setHintObj,
 }) {
   let dis = false;
 
@@ -91,7 +95,21 @@ function UserTools({
         board[rndX][rndY] = hint;
       } while (gameBoard[rndX][rndY]);
       const hist = gameBoardObj.history.slice(0, gameBoardObj.currentI + 1);
+      calculatePenalty();
       updateBoard(board, hist);
+    }
+  };
+  const calculatePenalty = () => {
+    if (hintObj.freeHints <= hintObj.timesClicked) {
+      const penalty = time + 5000 + 2000 * hintObj.penaltyMod;
+      setTimer(penalty);
+      setHintObj({
+        freeHints: hintObj.freeHints,
+        timesClicked: hintObj.timesClicked + 1,
+        penaltyMod: hintObj.penaltyMod + 1,
+      });
+    } else {
+      setHintObj({ ...hintObj, timesClicked: hintObj.timesClicked + 1 });
     }
   };
 

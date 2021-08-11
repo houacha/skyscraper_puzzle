@@ -174,7 +174,7 @@ function HighScores({
             Time:
           </div>
         </div>
-        {isSolved()}
+        <div className="highscores-container">{isSolved()}</div>
       </div>
       <div className="highscore-close" onClick={() => closeHigh()}>
         Close

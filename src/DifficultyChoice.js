@@ -34,6 +34,11 @@ function DifficultyChoice({
   const [showTimer, setShow] = React.useState(false);
   const [stopTimer, setStop] = React.useState(false);
   const [indices, setIndices] = React.useState({ x: null, y: null });
+  const [hintObj, setHintObj] = React.useState({
+    timesClicked: 0,
+    freeHints: 3,
+    penaltyMod: 0,
+  });
 
   const butArr = ["Easy", "Intermediate", "Hard"];
   let disable = false;
@@ -70,6 +75,7 @@ function DifficultyChoice({
   return (
     <div className="content_container">
       <Menu
+        setHintObj={setHintObj}
         setHsPClasses={setHsPClasses}
         highscoreClasses={highscoreClasses}
         setHighscoreClasses={setHighscoreClasses}
@@ -147,6 +153,10 @@ function DifficultyChoice({
         )}
 
         <UserTools
+          setHintObj={setHintObj}
+          hintObj={hintObj}
+          time={time}
+          setTimer={setTimer}
           setHsPClasses={setHsPClasses}
           highscoreClasses={highscoreClasses}
           setHighscoreClasses={setHighscoreClasses}
