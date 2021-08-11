@@ -2,8 +2,19 @@ import React from "react";
 import "./StartMenu.css";
 import HowToPlay from "./HowToPlay";
 
-function StartMenu({ start, setStart, title }) {
-  const [modulClasses, setClasses] = React.useState("hide-modul");
+function StartMenu({
+  setHsPClasses,
+  start,
+  setStart,
+  title,
+  highscoreClasses,
+  setHighscoreClasses,
+}) {
+  const [modulClasses, setClasses] = React.useState([
+    "how-to-play-modul",
+    "hide-modul",
+  ]);
+
   const [panelIndex, setPanelI] = React.useState(0);
 
   const panels = [
@@ -24,12 +35,29 @@ function StartMenu({ start, setStart, title }) {
     },
     {
       title: "Note!!!",
-      content: "Some puzzles have more than one solution.",
+      content:
+        "Some puzzles have more than one solution. Each row and column cannot have duplicate numbers.",
     },
   ];
+  let tempArr;
+
   const howToPlay = () => {
-    setClasses("show-htp");
+    tempArr = modulClasses.slice();
+    tempArr.pop();
+    tempArr.push("show-htp");
+    setClasses(tempArr);
   };
+  const showScores = () => {
+    tempArr = highscoreClasses.slice();
+    tempArr.pop();
+    tempArr.push("show-score");
+    setHighscoreClasses(tempArr);
+  };
+  const startClicked = () => {
+    setStart(true);
+    setHsPClasses("hide-hsP");
+  };
+
   if (start) {
     return null;
   }
@@ -44,14 +72,20 @@ function StartMenu({ start, setStart, title }) {
         modulClasses={modulClasses}
         setClasses={setClasses}
       />
+
       <button
         className="start_button start_item"
-        onClick={() => setStart(true)}
+        onClick={() => startClicked()}
       >
         Start
       </button>
+
       <button className="how_to_play start_item" onClick={() => howToPlay()}>
         How To Play
+      </button>
+
+      <button className="start_item" onClick={() => showScores()}>
+        Highscores
       </button>
     </div>
   );

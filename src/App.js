@@ -3,10 +3,17 @@ import DifficultyChoice from "./DifficultyChoice";
 import StartMenu from "./StartMenu";
 import "./App.css";
 import * as gameLogic from "./GameLogic.js";
+import HighScores from "./HighScores";
 
 function App() {
   //states
   const [start, setStart] = React.useState(false);
+  const [time, setTimer] = React.useState(0);
+  const [highscoreClasses, setHighscoreClasses] = React.useState([
+    "highscore-container",
+    "hide-score",
+  ]);
+  const [hsPClasses, setHsPClasses] = React.useState("");
   const [diffObject, setDiff] = React.useState({
     clueAmount: null,
     isClicked: false,
@@ -102,8 +109,32 @@ function App() {
   return (
     <React.StrictMode>
       <div className="App">
-        <StartMenu setStart={setStart} start={start} title={"Skyscraper"} />
+        <StartMenu
+          setHsPClasses={setHsPClasses}
+          highscoreClasses={highscoreClasses}
+          setHighscoreClasses={setHighscoreClasses}
+          setStart={setStart}
+          start={start}
+          title={"Skyscraper"}
+        />
+
+        <div className={`highscore-parent ${hsPClasses}`}>
+          <HighScores
+            length={lengthObject.length}
+            diff={diffObject.diffLevel}
+            time={time}
+            solved={solved}
+            highscoreClasses={highscoreClasses}
+            setHighscoreClasses={setHighscoreClasses}
+          />
+        </div>
+
         <DifficultyChoice
+          time={time}
+          setTimer={setTimer}
+          setHsPClasses={setHsPClasses}
+          highscoreClasses={highscoreClasses}
+          setHighscoreClasses={setHighscoreClasses}
           start={start}
           setStart={setStart}
           diffObject={diffObject}

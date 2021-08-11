@@ -5,6 +5,9 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./Menu.css";
 
 function Menu({
+  highscoreClasses,
+  setHighscoreClasses,
+  setHsPClasses,
   history,
   updateBoard,
   setErrors,
@@ -12,7 +15,6 @@ function Menu({
   setDiff,
   chooseLength,
   disable,
-  setShow,
   setStop,
   setTimer,
   setStart,
@@ -75,6 +77,13 @@ function Menu({
     }
   };
   const reset = () => {
+    const tempArr = highscoreClasses.slice();
+    tempArr.pop();
+    tempArr.push("hide-score");
+    setHighscoreClasses(tempArr);
+    setHsPClasses("");
+    setErrors(null, null);
+    showSolved(false);
     setTimer(0);
     setStop(false);
   };
@@ -88,8 +97,6 @@ function Menu({
     }
     showSidebar("hide", "hide-menu");
     updateBoard(board, hist, 0);
-    setErrors(null, null);
-    showSolved(false);
     reset();
   };
   const changeDiff = () => {
@@ -99,8 +106,6 @@ function Menu({
       updateBoard([], [], null, null, null);
       setDiff(null, false);
       chooseLength(null, false);
-      setErrors(null, null);
-      showSolved(false);
       reset();
     }, 400);
   };

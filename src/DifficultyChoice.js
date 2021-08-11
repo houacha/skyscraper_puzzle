@@ -8,6 +8,11 @@ import UserTools from "./UserTools";
 import Menu from "./Menu";
 
 function DifficultyChoice({
+  time,
+  setTimer,
+  setHsPClasses,
+  setHighscoreClasses,
+  highscoreClasses,
   start,
   diffObject,
   lengthObject,
@@ -26,7 +31,6 @@ function DifficultyChoice({
 }) {
   const { ref, isVisible, setIsVisible } = useVisible(false);
   const [hasUndefine, setUndefined] = React.useState(null);
-  const [time, setTimer] = React.useState(0);
   const [showTimer, setShow] = React.useState(false);
   const [stopTimer, setStop] = React.useState(false);
   const [indices, setIndices] = React.useState({ x: null, y: null });
@@ -66,9 +70,11 @@ function DifficultyChoice({
   return (
     <div className="content_container">
       <Menu
+        setHsPClasses={setHsPClasses}
+        highscoreClasses={highscoreClasses}
+        setHighscoreClasses={setHighscoreClasses}
         chooseLength={chooseLength}
         history={gameBoardObj.history}
-        setShow={setShow}
         setDiff={setDiff}
         updateBoard={updateBoard}
         setErrors={setErrors}
@@ -141,6 +147,9 @@ function DifficultyChoice({
         )}
 
         <UserTools
+          setHsPClasses={setHsPClasses}
+          highscoreClasses={highscoreClasses}
+          setHighscoreClasses={setHighscoreClasses}
           gameBoardObj={gameBoardObj}
           disable={disable}
           updateBoard={updateBoard}
@@ -151,6 +160,7 @@ function DifficultyChoice({
           setErrors={setErrors}
           showSolved={showSolved}
           solved={solved}
+          time={time}
         />
       </div>
     </div>

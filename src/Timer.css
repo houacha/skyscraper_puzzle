@@ -1,8 +1,9 @@
-.mili-sec {
-  color: red;
-}
-
 .digits {
   font-weight: bold;
   font-size: 18px;
+}
+
+.mili-sec {
+  color: red;
+  font-size: 14px;
 }

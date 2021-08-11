@@ -27,6 +27,7 @@ ReactDOM.render(
       src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
       crossOrigin="true"
     ></script>
+
     <App />
   </div>,
   document.getElementById("root")

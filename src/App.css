@@ -2,3 +2,19 @@
   width: fit-content;
   margin: auto;
 }
+
+.highscore-parent {
+  top: -180px;
+  width: 100vw;
+  left: 0;
+  position: absolute;
+}
+
+.hide-hsP {
+  display: none;
+}
+
+.win-show {
+  opacity: 0.97;
+  z-index: 999;
+}

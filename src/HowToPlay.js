@@ -16,8 +16,12 @@ function HowToPlay({
   panelI,
 }) {
   const pages = Array.from(Array(panelLength));
+  const tempArr = modulClasses.slice();
+
   const removeModul = () => {
-    setClasses("hide-modul");
+    tempArr.pop();
+    tempArr.push("hide-modul");
+    setClasses(tempArr);
     setPanelI(0);
   };
   const nextPanel = () => {
@@ -25,6 +29,7 @@ function HowToPlay({
     if (next === panelLength) {
       next = 0;
     }
+    setClasses(tempArr);
     setPanelI(next);
   };
   const prePanel = () => {
@@ -32,12 +37,13 @@ function HowToPlay({
     if (pre < 0) {
       pre = panelLength - 1;
     }
+    setClasses(tempArr);
     setPanelI(pre);
   };
 
   return (
     <div>
-      <div className={`how-to-play-modul ${modulClasses}`}>
+      <div className={modulClasses.join(" ")}>
         <div className="page-changer" onClick={() => prePanel()}>
           <FontAwesomeIcon icon={faChevronLeft} />
         </div>

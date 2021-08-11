@@ -6,6 +6,9 @@ import * as gameLogic from "./GameLogic.js";
 import "./UserTools.css";
 
 function UserTools({
+  setHsPClasses,
+  setHighscoreClasses,
+  highscoreClasses,
   gameBoardObj,
   disable,
   updateBoard,
@@ -52,8 +55,15 @@ function UserTools({
       Object.keys(solved.repeats).length === 0 &&
       solved.undefined === 0
     ) {
+      const tempArr = highscoreClasses.slice();
+      tempArr.pop();
+      tempArr.push("show-score");
       showSolved(true);
       setStop(true);
+      setHsPClasses("win-show");
+      setTimeout(() => {
+        setHighscoreClasses(tempArr);
+      }, 1000);
     } else {
       if (solved.undefined) {
         isUndefined(true);
